@@ -11,14 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 // Koneksi ke MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once("open", () => console.log("Connected to MongoDB"));
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ Connected to MongoDB"))
+    .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // Model Buku
 const BookSchema = new mongoose.Schema({
@@ -67,4 +62,4 @@ app.delete("/books/:id", async (req, res) => {
 });
 
 // Jalankan Server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
